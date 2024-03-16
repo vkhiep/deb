@@ -23,6 +23,11 @@ on:
         default: ""
         required: false
         type: string
+      sub_path:
+        description: "Sub path repository github: example: abc, xyz"
+        default: ""
+        required: false
+        type: string
       sub_check:
         description: "Sub Check"
         default: false
@@ -55,6 +60,7 @@ jobs:
         with:
           repository: ${{ inputs.sub_repo }}
           ref: ${{ inputs.sub_ref }}
+          path: ${{ inputs.sub_path }}
 
       - name: Install Dependencies
         run: brew install ldid dpkg make
