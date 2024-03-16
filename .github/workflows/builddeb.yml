@@ -35,7 +35,7 @@ on:
         type: boolean
       deb_name:
         description: "Name deb"
-        default: "Hiepvk"
+        default: "Hiepvk-deb"
         required: true
         type: string
       upload_artifact:
