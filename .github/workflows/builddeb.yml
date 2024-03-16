@@ -17,11 +17,13 @@ on:
         description: "Sub repository github: example: user/repository"
         default: ""
         required: false
+        default: false
         type: string
       sub_ref:
         description: "Sub ref repository github: example: main, master, v.v"
         default: ""
         required: false
+        default: false
         type: string
       deb_name:
         description: "Name deb"
@@ -45,6 +47,7 @@ jobs:
           submodules: recursive
           
       - name: Checkout sub
+        if: ${{ inputs.sub_check }}
         uses: actions/checkout@main
         with:
           repository: ${{ inputs.sub_repo }}
