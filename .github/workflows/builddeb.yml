@@ -16,12 +16,12 @@ on:
       sub_repo:
         description: "Sub repository github: example: user/repository"
         default: ""
-        required: true
+        required: false
         type: string
       sub_ref:
         description: "Sub ref repository github: example: main, master, v.v"
         default: ""
-        required: true
+        required: false
         type: string
       deb_name:
         description: "Name deb"
