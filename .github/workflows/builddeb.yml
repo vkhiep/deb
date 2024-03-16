@@ -15,17 +15,17 @@ on:
         type: string
       sub_repo:
         description: "Sub repository github: example: user/repository"
-        default: ""
+        default: "PoomSmart/YouTubeHeader"
         required: false
         type: string
       sub_ref:
         description: "Sub ref repository github: example: main, master, v.v"
-        default: ""
+        default: "main"
         required: false
         type: string
       sub_path:
         description: "Sub path repository github: example: abc, xyz"
-        default: ""
+        default: "YouTubeHeader"
         required: false
         type: string
       sub_check:
@@ -54,7 +54,7 @@ jobs:
           ref: ${{ inputs.ref_github }}
           submodules: recursive
           
-      - name: Checkout sub
+      - name: Checkout Sub
         if: ${{ inputs.sub_check }}
         uses: actions/checkout@main
         with:
