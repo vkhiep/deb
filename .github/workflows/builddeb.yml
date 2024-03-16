@@ -17,14 +17,17 @@ on:
         description: "Sub repository github: example: user/repository"
         default: ""
         required: false
-        default: false
         type: string
       sub_ref:
         description: "Sub ref repository github: example: main, master, v.v"
         default: ""
         required: false
-        default: false
         type: string
+      sub_check:
+        description: "Sub Check"
+        default: false
+        required: false
+        type: boolean
       deb_name:
         description: "Name deb"
         default: "Hiepvk"
