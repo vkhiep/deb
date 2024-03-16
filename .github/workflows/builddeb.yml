@@ -13,12 +13,12 @@ on:
         default: "main"
         required: true
         type: string
-      sub_github:
+      sub_repo:
         description: "Sub repository github: example: user/repository"
         default: ""
         required: true
         type: string
-      sub_github:
+      sub_ref:
         description: "Sub ref repository github: example: main, master, v.v"
         default: ""
         required: true
@@ -47,8 +47,8 @@ jobs:
       - name: Checkout sub
         uses: actions/checkout@main
         with:
-          repository: ${{ inputs.sub_github }}
-          ref: ${{ inputs.sub_github }}
+          repository: ${{ inputs.sub_repo }}
+          ref: ${{ inputs.sub_ref }}
 
       - name: Install Dependencies
         run: brew install ldid dpkg make
