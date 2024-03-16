@@ -13,6 +13,16 @@ on:
         default: "main"
         required: true
         type: string
+      sub_github:
+        description: "Sub repository github: example: user/repository"
+        default: ""
+        required: true
+        type: string
+      sub_github:
+        description: "Sub ref repository github: example: main, master, v.v"
+        default: ""
+        required: true
+        type: string
       deb_name:
         description: "Name deb"
         default: "Hiepvk"
@@ -34,6 +44,12 @@ jobs:
           ref: ${{ inputs.ref_github }}
           submodules: recursive
           
+      - name: Checkout sub
+        uses: actions/checkout@main
+        with:
+          repository: ${{ inputs.sub_github }}
+          ref: ${{ inputs.sub_github }}
+
       - name: Install Dependencies
         run: brew install ldid dpkg make
 
