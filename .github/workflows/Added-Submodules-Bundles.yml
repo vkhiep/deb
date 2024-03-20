@@ -85,7 +85,7 @@ jobs:
 
       - name: Update submodules
         run: |
-          git submodule update --remote
+          git submodule update --remote --init --recursive
           git commit -am "updating submodules"
           git push --set-upstream origin
         continue-on-error: true
