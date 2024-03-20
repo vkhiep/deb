@@ -1,0 +1,32 @@
+name: Update Submodules - 1
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo_github:
+        description: "Repository github: example: user/repository"
+        default: "hiepvk/src"
+        required: true
+        type: string
+      ref_github:
+        description: "Ref repository github: example: main, master, v.v"
+        default: "main"
+        required: true
+        type: string
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4.1.1
+        with:
+          repository: ${{ inputs.repo_github }}
+          ref: ${{ inputs.ref_github }}
+          token: ${{ secrets.RELEASE_HUB_SECRET }}
+
+      - name: Update submodules
+        run: |
+          git config --global user.name "$GITHUB_ACTOR"
+          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git submodule update --remote --init --recursive
+          git commit --all -m "[submodules] Update submodules to the latest commit" && git push || echo "No changes were made"

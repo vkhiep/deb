@@ -1,0 +1,106 @@
+#Template for whenever I refresh the main branch. and even need to re-add the submodules afterwards.
+
+name: Added Submodule - Bundles
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo_github:
+        description: "Repository github: example: user/repository"
+        default: "hiepvk/src"
+        required: true
+        type: string
+      ref_github:
+        description: "Ref repository github: example: main, master, v.v"
+        default: "main"
+        required: true
+        type: string
+      add_sub:
+        description: "Add submodule, example: https://github.com/PoomSmart/YTABConfig.git"
+        default: ""
+        required: false
+        type: string
+      add_dir_sub:
+        description: "Dir submodule, example: Tweaks/YTABConfig"
+        default: ""
+        required: false
+        type: string
+      add_ref_sub:
+        description: "Ref submodule, example: main, master"
+        default: ""
+        required: false
+        type: string
+      add_sub_check:
+        description: "Add sub check"
+        default: false
+        required: false
+        type: boolean
+      add_bundle:
+        description: "Add bundle, example: YTABConfig.bundle"
+        default: ""
+        required: false
+        type: string
+      dir_bundle:
+        description: "Dir bundle, example: Bundles"
+        default: ""
+        required: false
+        type: string
+      mkdir_bundle:
+        description: "mkdir bundle, example: mkdir Bundles"
+        default: ""
+        required: false
+        type: string
+      add_bundle_check:
+        description: "Add bundle check"
+        default: false
+        required: false
+        type: boolean
+
+jobs:
+  update-submodules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+        with:
+          repository: ${{ inputs.repo_github }}
+          ref: ${{ inputs.ref_github }}
+          token: ${{ secrets.RELEASE_HUB_SECRET }}
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "$GITHUB_ACTOR"
+          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Add submodules
+        if: ${{ inputs.add_sub_check }}
+        run: |
+          git submodule add -b ${{ inputs.add_ref_sub }} ${{ inputs.add_sub }} ${{ inputs.add_dir_sub }}
+          git add .
+          git commit -m "added submodules"
+          git push origin
+
+      - name: Update submodules
+        run: |
+          git submodule update --remote --init --recursive
+          git commit --all -m "[submodules] Update submodules to the latest commit" && git push || echo "No changes were made"
+        continue-on-error: true
+
+      - name: Make .bundle files
+        if: ${{ inputs.add_bundle_check }}
+        run: |
+          ${{ inputs.mkdir_bundle }}
+          cd ${{ inputs.dir_bundle }}
+          ln -s ../${{ inputs.add_dir_sub }}/layout/Library/Application\ Support/${{ inputs.add_bundle }} ${{ inputs.add_bundle }}
+          git add .
+          git commit -m "Added bundles"
+          git push origin
+
+      - name: Check exit code
+        run: |
+          exit_code=$?
+          if [ $exit_code -ne 0 ]; then
+            echo "Submodule update failed with exit code $exit_code"
+            exit 1
+          fi
