@@ -5,7 +5,7 @@ on:
     inputs:
       repo_github:
         description: "Repository github: example: user/repository"
-        default: "hiepvk/src"
+        default: "vkhiep/uYouEnhanced"
         required: true
         type: string
       ref_github:
