@@ -83,8 +83,10 @@ jobs:
 
       - name: Update submodules
         run: |
-          git submodule update --remote --init --recursive
-          git commit --all -m "[submodules] Update submodules to the latest commit" && git push || echo "No changes were made"
+          git submodule update --remote
+          git checkout -b $GITHUB_RUN_ID
+          git commit -am "updating submodules"
+          git push --set-upstream origin $GITHUB_RUN_ID
         continue-on-error: true
 
       - name: Make .bundle files
