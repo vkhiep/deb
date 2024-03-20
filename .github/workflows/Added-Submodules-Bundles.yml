@@ -67,7 +67,7 @@ jobs:
           repository: ${{ inputs.repo_github }}
           ref: ${{ inputs.ref_github }}
           token: ${{ secrets.RELEASE_HUB_SECRET }}
-#          submodules: true
+          submodules: true
           fetch-depth: 0
 
       - name: Set up Git
@@ -85,7 +85,7 @@ jobs:
 
       - name: Update submodules
         run: |
-          git submodule update --remote --init --recursive
+          git submodule update --remote
           git commit -am "updating submodules"
           git push --set-upstream origin
         continue-on-error: true
