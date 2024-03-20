@@ -84,9 +84,8 @@ jobs:
       - name: Update submodules
         run: |
           git submodule update --remote
-          git checkout -b $GITHUB_RUN_ID
           git commit -am "updating submodules"
-          git push --set-upstream origin $GITHUB_RUN_ID
+          git push --set-upstream origin
         continue-on-error: true
 
       - name: Make .bundle files
