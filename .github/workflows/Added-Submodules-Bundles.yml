@@ -67,6 +67,8 @@ jobs:
           repository: ${{ inputs.repo_github }}
           ref: ${{ inputs.ref_github }}
           token: ${{ secrets.RELEASE_HUB_SECRET }}
+          submodules: true
+          fetch-depth: 0
 
       - name: Set up Git
         run: |
